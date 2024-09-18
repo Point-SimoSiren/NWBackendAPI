@@ -9,8 +9,7 @@ namespace NWBackendAPI.Controllers
     public class CustomersController : ControllerBase
     {
         // Luodaan instanssi tietokantakontekstiluokasta
-        NorthwindOriginalContext db = new();
-
+        private readonly NorthwindOriginalContext db = new();
 
         // Hakee kaikki asiakkaat
         [HttpGet]

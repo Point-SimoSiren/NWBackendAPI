@@ -23,6 +23,7 @@ namespace NWBackendAPI.Models
         public virtual DbSet<Customer> Customers { get; set; } = null!;
         public virtual DbSet<CustomerAndSuppliersByCity> CustomerAndSuppliersByCities { get; set; } = null!;
         public virtual DbSet<CustomerDemographic> CustomerDemographics { get; set; } = null!;
+        public virtual DbSet<Documentation> Documentations { get; set; } = null!;
         public virtual DbSet<Employee> Employees { get; set; } = null!;
         public virtual DbSet<Invoice> Invoices { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
@@ -48,7 +49,7 @@ namespace NWBackendAPI.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        //To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=DESKTOP-A6FO872;Database=NorthwindOriginal;Trusted_Connection=True;");
             }
         }
@@ -196,6 +197,19 @@ namespace NWBackendAPI.Models
                     .IsFixedLength();
 
                 entity.Property(e => e.CustomerDesc).HasColumnType("ntext");
+            });
+
+            modelBuilder.Entity<Documentation>(entity =>
+            {
+                entity.ToTable("Documentation");
+
+                entity.Property(e => e.DocumentationId).HasColumnName("DocumentationID");
+
+                entity.Property(e => e.AvailableRoute).HasMaxLength(200);
+
+                entity.Property(e => e.Description).HasMaxLength(2000);
+
+                entity.Property(e => e.Method).HasMaxLength(20);
             });
 
             modelBuilder.Entity<Employee>(entity =>
