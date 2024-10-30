@@ -26,6 +26,7 @@ namespace NWBackendAPI.Models
         public virtual DbSet<Documentation> Documentations { get; set; } = null!;
         public virtual DbSet<Employee> Employees { get; set; } = null!;
         public virtual DbSet<Invoice> Invoices { get; set; } = null!;
+        public virtual DbSet<Muistiinpanot> Muistiinpanots { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
         public virtual DbSet<OrderDetailsExtended> OrderDetailsExtendeds { get; set; } = null!;
@@ -44,13 +45,13 @@ namespace NWBackendAPI.Models
         public virtual DbSet<SummaryOfSalesByYear> SummaryOfSalesByYears { get; set; } = null!;
         public virtual DbSet<Supplier> Suppliers { get; set; } = null!;
         public virtual DbSet<Territory> Territories { get; set; } = null!;
+        public virtual DbSet<User> Users { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-        //To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-A6FO872;Database=NorthwindOriginal;Trusted_Connection=True;");
+                return;
             }
         }
 
@@ -331,6 +332,17 @@ namespace NWBackendAPI.Models
                 entity.Property(e => e.ShipperName).HasMaxLength(40);
 
                 entity.Property(e => e.UnitPrice).HasColumnType("money");
+            });
+
+            modelBuilder.Entity<Muistiinpanot>(entity =>
+            {
+                entity.ToTable("Muistiinpanot");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Muistiinpano)
+                    .HasMaxLength(200)
+                    .HasColumnName("muistiinpano");
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -740,6 +752,21 @@ namespace NWBackendAPI.Models
                     .HasForeignKey(d => d.RegionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Territories_Region");
+            });
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.Property(e => e.AccessLevelId).HasColumnName("AccessLevelID");
+
+                entity.Property(e => e.Firstname).HasMaxLength(50);
+
+                entity.Property(e => e.Lastname).HasMaxLength(50);
+
+                entity.Property(e => e.Password).HasMaxLength(50);
+
+                entity.Property(e => e.Username).HasMaxLength(50);
             });
 
             OnModelCreatingPartial(modelBuilder);

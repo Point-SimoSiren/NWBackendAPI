@@ -9,8 +9,16 @@ namespace NWBackendAPI.Controllers
     public class DocumentationController : ControllerBase
     {
 
-        private readonly NorthwindOriginalContext db = new NorthwindOriginalContext();
         private readonly string savedKeycode = "bond007";
+
+        // Dependency Injection tyyli
+        private readonly NorthwindOriginalContext db;
+
+        public DocumentationController(NorthwindOriginalContext dbparametri)
+        {
+            db = dbparametri;
+        }
+
 
         [HttpGet("{keycode}")]
         public ActionResult GetDocumentation(string keycode)
